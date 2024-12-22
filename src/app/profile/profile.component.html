@@ -1,0 +1,10 @@
+<p>profile works!</p>
+<p>Email: {{ temp }}</p>
+
+<h2>Profile</h2>
+    <div *ngIf="user">
+      <p>Name: {{ user.name }}</p>
+      <p>Email: {{ temp }}</p>
+      <p>Age: {{ user.age }}</p>
+      <img *ngIf="user.profile_photo_url" [src]="user.profile_photo_url" alt="Profile Photo" />
+    </div>

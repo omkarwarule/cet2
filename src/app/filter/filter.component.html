@@ -1,0 +1,67 @@
+<div class="filter-form">
+    <label for="caste">Caste: </label>
+    <select id="caste" [(ngModel)]="caste">
+        <option value="OPEN">OPEN</option>
+        <option value="SC">SC</option>
+        <option value="ST">ST</option>
+        <option value="VJ">VJ</option>
+        <option value="NT1">NT1</option>
+        <option value="NT2">NT2</option>
+        <option value="NT3">NT3</option>
+        <option value="OBC">OBC</option>
+        <option value="PWDOPENS">PWDOPENS</option>
+        <option value="DEFOPENS">DEFOPENS</option>
+        <option value="TFWS">TFWS</option>
+        <option value="EWS">EWS</option>
+    </select>
+    <label for="percentile"> Percentile: </label>
+    <input id="percentile" type="number" [(ngModel)]="percentile" />
+    <button (click)="filterColleges()">Filter</button>
+  </div>
+  <div class="checkbox-container">
+    <div *ngFor="let branch of ballocations" class="checkbox-item">
+      <input 
+        type="checkbox" 
+        [value]="branch" 
+        (change)="onCheckboxChange2($event)" 
+        id="{{ branch }}" />
+      <label for="{{ branch }}">{{ branch }}</label>
+    </div>
+  </div>
+  <div class="checkbox-container">
+    <div *ngFor="let location of allLocations" class="checkbox-item">
+      <input 
+        type="checkbox" 
+        [value]="location" 
+        (change)="onCheckboxChange($event)" 
+        id="{{ location }}" />
+      <label for="{{ location }}">{{ location }}</label>
+    </div>
+  </div>
+  <table *ngIf="colleges.length > 0">
+    <thead>
+      <tr>
+        <th>Sr No</th>
+        <th>College Code</th>
+        <th>College Name</th>
+        <th>Branch</th>
+        <th>Minority</th>
+        <th>Location</th>
+        <th>OBC</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of colleges">
+        <td>{{ row['Sr No'] }}</td>
+        <td>{{ row['College Code'] }}</td>
+        <td>{{ row['College Name'] }}</td>
+        <td>{{ row['Branch'] }}</td>
+        <td>{{ row['Minority'] }}</td>
+        <td>{{ row['Location'] }}</td>
+        <td>{{ row['OBC'] }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
+  

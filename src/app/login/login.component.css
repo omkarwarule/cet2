@@ -1,0 +1,223 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+}
+
+/* Left Section */
+.left-section {
+  flex: 1;
+  background-color: #f0f8ff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.banner .logo {
+  width: 150px;
+}
+
+.banner h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.banner h2 {
+  font-size: 40px;
+  color: #0044cc;
+  margin: 10px 0;
+}
+
+.banner h2 span {
+  color: #ff6600;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 16px;
+}
+
+/* Right Section */
+.right-section {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-container {
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.institute-logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  outline: none;
+}
+
+.input-group .icon {
+  margin-right: 10px;
+}
+
+
+
+.btn {
+  margin-top: 20px;
+  background-color: #2e73b8; /* Updated blue color */
+  color: #ffffff; /* White text */
+  padding: 10px 20px; /* Slightly adjusted padding for symmetry */
+  border: none; /* No border */
+  border-radius: 25px; /* Makes the button fully rounded */
+  font-weight: bold; /* Ensures bold text */
+  font-family: Arial, sans-serif; /* Clean font style */
+  text-transform: uppercase; /* Converts text to uppercase */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds subtle shadow for depth */
+  cursor: pointer; /* Pointer on hover */
+  transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.btn:hover {
+  background-color: #1d5f9e; /* Slightly darker blue on hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+.help-section {
+  margin-top: 30px;
+  font-size: 14px;
+}
+
+.help-section a {
+  text-decoration: none;
+  color: #2e2d2d; /* Change to your desired color */
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.help-section i {
+  margin-right: 5px; /* Add spacing between icon and text */
+  font-size: 18px;   /* Adjust icon size */
+}
+
+
+
+
+
+.app-links img {
+  width: 120px;
+  margin: 10px 5px;
+}
+
+footer {
+  background-color: #0044cc;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  margin-top: auto;
+}
+
+footer .social-icons img {
+  width: 20px;
+  margin: 0 5px;
+}
+
+
+
+.social-icon {
+  width: 30px;
+  height: 10px;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.1);
+}
+
+
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  height: 44px;
+  gap: 20px;
+}
+
+.icon-wrapper {
+  background-color: white;
+  border-radius: 50%;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional for depth */
+}
+
+.icon-wrapper img {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+
+.highlight-box {
+  display: inline-block;
+  background-color: #007bff; /* Blue background color */
+  color: #fff; /* White text color */
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px; /* Rounded corners */
+  border: 1px solid #ccc; /* Border around the box */
+  margin-top: 15px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional for depth */
+}
+
+
+.highlight-title {
+  font-family: Arial, sans-serif; /* Ensures a clean and readable font */
+  font-size: 30px; /* Adjust the size to match the image */
+  font-weight: bold; /* Makes the text bold */
+  color: rgb(2, 2, 189); /* Sets the color of the first part */
+  margin-bottom: 30px;
+}
+
+.highlight-title span {
+  color: orange; 
+}
+
