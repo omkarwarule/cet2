@@ -38,26 +38,63 @@ db.connect((err) => {
   console.log('Connected to the database.');
 });
 app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-app.post('/api/colleges', (req, res) => {
-  const { caste, percentile, branch, locations } = req.body;
+app.use(express.urlencoded({ extended: true }));
+
+
+app.post('/api/jee', (req, res) => {
+  const { percentile, branch, locations } = req.body;
 
   const query = `
-      SELECT *,
-             CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(??, '(', -1), ')', 1) AS DECIMAL(10, 5)) AS value
-      FROM cet
-      WHERE CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(??, '(', -1), ')', 1) AS DECIMAL(10, 5))
+      SELECT *, 
+             CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Percentile, '(', -1), ')', 1) AS DECIMAL(10,5)) AS extracted_percentile
+      FROM jee
+      WHERE CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(Percentile, '(', -1), ')', 1) AS DECIMAL(10,5))
             BETWEEN ? AND ?
-            ${branch && branch.length > 0 ? `AND branch IN (${branch.map(() => '?').join(', ')})` : ''}
+            ${branch && branch.length > 0 ? `AND Branch IN (${branch.map(() => '?').join(', ')})` : ''}
             ${locations && locations.length > 0 ? `AND Location IN (${locations.map(() => '?').join(', ')})` : ''}
-      ORDER BY value DESC
+      ORDER BY extracted_percentile DESC
   `;
 
-  // Calculate percentile limits
   const lowerLimit = percentile - 10;
   const upperLimit = percentile + 10;
+  const queryParams = [
+      lowerLimit,
+      upperLimit,
+      ...(branch || []),
+      ...(locations || []),
+  ];
 
-  // Build the query parameters
+  console.log('Generated Query:', query);
+  console.log('Query Parameters:', queryParams);
+
+  db.query(query, queryParams, (err, results) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          res.status(500).send('Server error');
+      } else {
+          res.json(results);
+      }
+  });
+});
+
+
+app.post('/api/colleges', (req, res) => {
+  const { caste, percentile, branch, locations, minority } = req.body;
+
+  const query = `
+    SELECT *,
+           CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(??, '(', -1), ')', 1) AS DECIMAL(10, 5)) AS value
+    FROM cet
+    WHERE CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(??, '(', -1), ')', 1) AS DECIMAL(10, 5))
+          BETWEEN ? AND ?
+          ${branch && branch.length > 0 ? `AND branch IN (${branch.map(() => '?').join(', ')})` : ''}
+          ${locations && locations.length > 0 ? `AND Location IN (${locations.map(() => '?').join(', ')})` : ''}
+          ${minority && minority.length > 0 ? `AND Minority IN (${minority.map(() => '?').join(', ')}) AND Minority != ''` : ''}
+    ORDER BY value DESC
+  `;
+
+  const lowerLimit = percentile - 10;
+  const upperLimit = percentile + 10;
   const queryParams = [
     caste, // First ?? placeholder for dynamic column
     caste, // Second ?? placeholder for WHERE clause
@@ -65,7 +102,11 @@ app.post('/api/colleges', (req, res) => {
     upperLimit, // Upper percentile limit
     ...(branch || []), // Branch array values
     ...(locations || []), // Location array values
+    ...(minority || []), // Minority array values
   ];
+
+  console.log('Generated Query:', query);
+  console.log('Query Parameters:', queryParams);
 
   db.query(query, queryParams, (err, results) => {
     if (err) {
@@ -76,6 +117,7 @@ app.post('/api/colleges', (req, res) => {
     }
   });
 });
+
 // 1. **Signup Route**
 app.post("/api/signup", (req, res) => {
   const { name, email, password, age, profile_photo_url } = req.body;
