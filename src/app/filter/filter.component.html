@@ -1,4 +1,100 @@
-<div class="filter-form">
+<h1>select cut off type</h1>
+<select (change)="descide($event)">
+  <option value="jee"> All India Cutof </option>
+  <option value="cet"> Maharashtra </option>
+</select>
+<!-- jee val input -->
+<div *ngIf="!cet">
+  <label for="percentile"> Percentile: </label>
+  <input id="percentile" type="number" [(ngModel)]="percentile" />
+
+  <strong>Branches : </strong>
+  <div class="Assign">
+    <div class="radio-item">
+      <input
+        type="radio"
+        id="tech"
+        name="branches"
+        (change)="onBranchSelection('tech')"
+      />
+      <label for="tech">Tech Branches</label>
+    </div>
+  
+    <div class="radio-item">
+      <input
+        type="radio"
+        id="nontech"
+        name="branches"
+        (change)="onBranchSelection('nontech')"
+      />
+      <label for="nontech">Non Tech Branches</label>
+    </div>
+  
+    <div class="radio-item">
+      <input
+        type="radio"
+        id="both"
+        name="branches"
+        (change)="onBranchSelection('both')"
+      />
+      <label for="both">Tech + Non Tech</label>
+    </div>
+  </div>
+  
+  <div *ngIf="selectedBranch" class="checkbox-container">
+    <p *ngIf="selectedBranch === 'tech'">Select Tech Branches:</p>
+    <p *ngIf="selectedBranch === 'nontech'">Select Non Tech Branches:</p>
+    <p *ngIf="selectedBranch === 'both'">Select Tech + Non Tech Branches:</p>
+  
+    <!-- Display Checkboxes Based on Selection -->
+    <div *ngFor="let branch of displayedBranches" class="checkbox-item">
+      <input
+        type="checkbox"
+        [id]="branch"
+        [value]="branch"
+        [checked]="selectedBranches.includes(branch)"
+        (change)="onBranchChange($event)"
+      />
+      <label [for]="branch">{{ branch }}</label>
+    </div>
+  </div>
+  
+     
+  <strong>Regions</strong>
+  
+  
+  
+     <div class="checkbox-container">
+  
+  <div *ngFor="let regionName of regionList" class="checkbox-item">
+    <label>
+      <input type="checkbox" [checked]="selectedRegions1.includes(regionName)" 
+             (change)="onRegionChange1(regionName)">
+      {{ regionName }}
+    </label>
+  </div>
+  </div>
+  
+  <!-- Step 2: Display checkboxes for cities of selected regions -->
+  <div *ngFor="let regionName of selectedRegions1">
+    <h3>{{ regionName }} Cities</h3>
+    <div *ngFor="let location of locationMap[regionName]">
+      <label>
+        <input type="checkbox" [checked]="selectedLocations[regionName]?.includes(location)" 
+               (change)="onCityChange(regionName, location)">
+        {{ location }}
+      </label>
+    </div>
+  </div>
+  <button (click)="filterColleges()">Filter</button>
+
+  
+</div>
+
+<!-- cet -->
+<div *ngIf="cet" >
+
+  <div class="filter-form">
     <label for="caste">Caste: </label>
     <select id="caste" [(ngModel)]="caste">
         <option value="OPEN">OPEN</option>
@@ -16,28 +112,117 @@
     </select>
     <label for="percentile"> Percentile: </label>
     <input id="percentile" type="number" [(ngModel)]="percentile" />
+</div>
+
+
+<strong>Branches : </strong>
+<div class="Assign">
+  <div class="radio-item">
+    <input
+      type="radio"
+      id="tech"
+      name="branches"
+      (change)="onBranchSelection('tech')"
+    />
+    <label for="tech">Tech Branches</label>
+  </div>
+
+  <div class="radio-item">
+    <input
+      type="radio"
+      id="nontech"
+      name="branches"
+      (change)="onBranchSelection('nontech')"
+    />
+    <label for="nontech">Non Tech Branches</label>
+  </div>
+
+  <div class="radio-item">
+    <input
+      type="radio"
+      id="both"
+      name="branches"
+      (change)="onBranchSelection('both')"
+    />
+    <label for="both">Tech + Non Tech</label>
+  </div>
+</div>
+
+<div *ngIf="selectedBranch" class="checkbox-container">
+  <p *ngIf="selectedBranch === 'tech'">Select Tech Branches:</p>
+  <p *ngIf="selectedBranch === 'nontech'">Select Non Tech Branches:</p>
+  <p *ngIf="selectedBranch === 'both'">Select Tech + Non Tech Branches:</p>
+
+  <!-- Display Checkboxes Based on Selection -->
+  <div *ngFor="let branch of displayedBranches" class="checkbox-item">
+    <input
+      type="checkbox"
+      [id]="branch"
+      [value]="branch"
+      [checked]="selectedBranches.includes(branch)"
+      (change)="onBranchChange($event)"
+    />
+    <label [for]="branch">{{ branch }}</label>
+  </div>
+</div>
+
+   
+<strong>Regions</strong>
+
+
+
+   <!-- Step 1: Display checkboxes for regions -->
+   <div class="checkbox-container">
+
+<div *ngFor="let regionName of regionList" class="checkbox-item">
+  <label>
+    <input type="checkbox" [checked]="selectedRegions1.includes(regionName)" 
+           (change)="onRegionChange1(regionName)">
+    {{ regionName }}
+  </label>
+</div>
+</div>
+
+<!-- Step 2: Display checkboxes for cities of selected regions -->
+<div *ngFor="let regionName of selectedRegions1">
+  <h3>{{ regionName }} Cities</h3>
+  <div *ngFor="let location of locationMap[regionName]">
+    <label>
+      <input type="checkbox" [checked]="selectedLocations[regionName]?.includes(location)" 
+             (change)="onCityChange(regionName, location)">
+      {{ location }}
+    </label>
+  </div>
+</div>
+
+
+
+    
+
+
+<strong>Minority:</strong>
+<select (change)="MinorityChange($event)">
+  <option value="No"> No </option>
+  <option value="Yes"> Yes </option>
+</select>
+<br>
+    
+      <div *ngIf="Minor" class="checkbox-container">
+      <div *ngFor="let minority of liminority" class="radio-item">
+        <input 
+          type="radio"  
+          [value]="minority" 
+          (change)="onMinorityChange($event)" 
+          name="minorityGroup" 
+          id="{{ minority }}" />
+        <label for="{{ minority }}">{{ minority }}</label>
+      </div>    
+    </div>
+    
+
+
     <button (click)="filterColleges()">Filter</button>
-  </div>
-  <div class="checkbox-container">
-    <div *ngFor="let branch of ballocations" class="checkbox-item">
-      <input 
-        type="checkbox" 
-        [value]="branch" 
-        (change)="onCheckboxChange2($event)" 
-        id="{{ branch }}" />
-      <label for="{{ branch }}">{{ branch }}</label>
-    </div>
-  </div>
-  <div class="checkbox-container">
-    <div *ngFor="let location of allLocations" class="checkbox-item">
-      <input 
-        type="checkbox" 
-        [value]="location" 
-        (change)="onCheckboxChange($event)" 
-        id="{{ location }}" />
-      <label for="{{ location }}">{{ location }}</label>
-    </div>
-  </div>
+
   <table *ngIf="colleges.length > 0">
     <thead>
       <tr>
@@ -47,7 +232,9 @@
         <th>Branch</th>
         <th>Minority</th>
         <th>Location</th>
+        <th>open</th>
         <th>OBC</th>
+        <th>SC</th>
       </tr>
     </thead>
     <tbody>
@@ -58,10 +245,43 @@
         <td>{{ row['Branch'] }}</td>
         <td>{{ row['Minority'] }}</td>
         <td>{{ row['Location'] }}</td>
+        <td>{{ row['OPEN'] }}</td>
         <td>{{ row['OBC'] }}</td>
+        <td>{{ row['SC'] }}</td>
+
+        
+
       </tr>
     </tbody>
   </table>
+  <button (click)="downloadPDF()">Download as PDF</button>
+</div>
+<div *ngIf="!cet" >
   
-  
-  
+  <table *ngIf="colleges.length > 0">
+    <thead>
+      <tr>
+        <th>Sr. No</th>
+        <th>College</th>
+        <th>Branch</th>
+        <th>Location</th>
+        <th>Percentile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of colleges">
+        <td>{{ row['Sr. No'] }}</td>
+        <td>{{ row['College'] }}</td>
+        <td>{{ row['Branch'] }}</td>
+        <td>{{ row['Location'] }}</td>
+        <td>{{ row['Percentile'] }}</td>
+      
+
+        
+
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<!-- </ng-template> -->
